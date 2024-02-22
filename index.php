@@ -2,8 +2,6 @@
 // Include database info
 include "/var/www/inc/dbinfo.inc"; // Adjust the path as necessary
 
-session_start(); // Start session
-
 try {
     // Establish database connection using PDO
     $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_DATABASE, DB_USERNAME, DB_PASSWORD);

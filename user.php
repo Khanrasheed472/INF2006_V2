@@ -1,9 +1,10 @@
 <?php
+include_once 'base.php';
     class User extends Base{
-        function __construct($pdo)
-        {
-            $this->pdo = $pdo;
-        }   
+
+        function __construct($pdo) {
+            parent::__construct($pdo); // Call Base class constructor
+        }
 
         // Removes extra space and html code from input
         public function checkInput($var)

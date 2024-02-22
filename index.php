@@ -1,6 +1,10 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 // Include database info
 include "/var/www/inc/dbinfo.inc"; // Adjust the path as necessary
+
+session_start(); // Start session
 
 try {
     // Establish database connection using PDO

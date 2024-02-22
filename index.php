@@ -1,25 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-session_start(); // Start or resume the session
-
-// Include database info
-include "/var/www/inc/dbinfo.inc"; // Adjust the path as necessary
-
-try {
-    // Establish database connection using PDO
-    $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_DATABASE, DB_USERNAME, DB_PASSWORD);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    // Include your classes after establishing the PDO connection
-    include_once 'user.php'; // Adjust paths as necessary for your class files
-    // Initialize User object with PDO connection
-    $getFromU = new User($pdo);
-
-} catch (PDOException $e) {
-    die("Connection error: " . $e->getMessage());
-}
+// Include the initialization script
+require_once 'init.php';
 
 // User login check
 if (isset($_SESSION['UserId'])) {
@@ -27,12 +8,14 @@ if (isset($_SESSION['UserId'])) {
     exit();
 }
 
+$error = ''; // Initialize error message
+
 // Validate credentials and log the user in
 if (isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['password'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = $getFromU->checkInput($_POST['username']);
+    $password = $_POST['password']; // Consider hashing or secure comparison
 
-    // Assuming User class has login method that returns user ID on success or false on failure
+    // Attempt to login and set session
     $userId = $getFromU->login($username, $password);
     
     if ($userId) {

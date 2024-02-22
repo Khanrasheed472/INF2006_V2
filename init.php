@@ -12,8 +12,8 @@ try {
 
     // Include class definitions
     include_once __DIR__ . '/base.php';
-    include_once __DIR__ . '/bser.php';
-    include_once __DIR__ . '/bxpense.php';
+    include_once __DIR__ . '/user.php';
+    include_once __DIR__ . '/expense.php';
     include_once __DIR__ . '/budget.php';
 
     // Initialize objects with the PDO connection

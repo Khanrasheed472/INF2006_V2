@@ -1,10 +1,11 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
+session_start(); // Start or resume the session
+
 // Include database info
 include "/var/www/inc/dbinfo.inc"; // Adjust the path as necessary
-
-session_start(); // Start session
 
 try {
     // Establish database connection using PDO

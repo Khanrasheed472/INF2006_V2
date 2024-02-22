@@ -1,5 +1,4 @@
 <?php
-session_start(); // Start or resume the session
 
 include_once '/var/www/inc/dbinfo.inc'; // Use include_once to avoid redefining constants
 

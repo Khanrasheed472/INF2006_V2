@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once __DIR__ . '/var/www/html/dbinfo.inc'; // Adjust if dbinfo.inc is located elsewhere
+include_once __DIR__ . '/../dbinfo.inc'; // Adjust if dbinfo.inc is located elsewhere
 
 try {
     // Establish a new PDO connection

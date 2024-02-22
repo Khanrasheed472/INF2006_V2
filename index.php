@@ -1,26 +1,46 @@
-<?php 
-    include_once "init.php";
+<?php
+// Include database info
+include "/var/www/inc/dbinfo.inc"; // Adjust the path as necessary
+
+session_start(); // Start session
+
+try {
+    // Establish database connection using PDO
+    $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_DATABASE, DB_USERNAME, DB_PASSWORD);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // User login check
-    if (isset($_SESSION['UserId'])) {
-      header('Location: templates/3-Dashboard.php');
-    }
+    // Include your classes after establishing the PDO connection
+    include_once 'user.php'; // Adjust paths as necessary for your class files
+    // Initialize User object with PDO connection
+    $getFromU = new User($pdo);
 
-    // Validate credentials and log the user in
-    if (isset($_POST['login']) && !empty($_POST)) {
-        $password = $_POST['password'];
-        $username = $_POST['username'];
-        
-        if(!empty($username) || !empty($password)) {
-            $username = $getFromU->checkInput($username);
-            $password = $getFromU->checkInput($password);
-            if($getFromU->login($username, $password) === false) {
-            $error = "The username or password is incorrect";
-            }
-          } 
+} catch (PDOException $e) {
+    die("Connection error: " . $e->getMessage());
+}
+
+// User login check
+if (isset($_SESSION['UserId'])) {
+    header('Location: templates/3-Dashboard.php');
+    exit();
+}
+
+// Validate credentials and log the user in
+if (isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['password'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Assuming User class has login method that returns user ID on success or false on failure
+    $userId = $getFromU->login($username, $password);
+    
+    if ($userId) {
+        $_SESSION['UserId'] = $userId; // Set user ID in session
+        header('Location: templates/3-Dashboard.php'); // Redirect to dashboard
+        exit();
+    } else {
+        $error = "The username or password is incorrect.";
     }
+}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
